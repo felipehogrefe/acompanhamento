@@ -1,0 +1,91 @@
+<head>
+    <style>
+        .collapsible {
+            text-color: #337ab7;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 25px;
+            border-radius: 15px;
+            background: white;
+        }
+
+        .active, .collapsible:hover {
+            text-color: #337ab7;
+
+        }
+
+        .content {
+            padding: 0 18px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+
+        }
+
+        .border {
+            border-radius: 15px;
+            border: 2px solid #337ab7;
+            margin: 5px;
+        }
+
+        .split {
+            position: relative;
+            width: 50%;
+            float: left;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+
+    {% block content %}
+        <div style="padding: 0; margin: 0;">
+            <header style="/* Stick to the top */ position: sticky; top: 0">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+                <div style=" background: white;">
+                    <h1 style="margin-bottom: 20px; margin-left: 2%">
+                        <div>
+                            <a href="{% url 'investimentos:importar'%}" style="margin-right: 20px">Importar</a>
+                            <a href="{% url 'investimentos:exportar'%}" style="margin-right: 20px">Exportar</a>
+                            <div style="float: right; margin-right: 2%; font-size: 50%">
+                                {% if user.is_authenticated %}
+                                    Logado como: {{ user.username }}
+                                    <a href="{% url 'users:logout' %}">Logout</a>
+                                {% else %}
+                                    <a href="{% url 'users:login' %}">Login</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </h1>
+                    <hr />
+                </div>
+            </header>
+            <main>
+                {% block branding %}
+                {% endblock %}
+            </main>
+        </div>
+    {% endblock %}
+    <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight){
+              content.style.maxHeight = null;
+            } else {
+              content.style.maxHeight = content.scrollHeight + "px";
+            }
+          });
+        }
+    </script>
+</body>
+

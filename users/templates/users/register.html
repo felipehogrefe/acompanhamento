@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div style="width: 300px; background: #fff;">
+    <div style="align: center; margin-left: 20%; ">
+        <h2>Register</h2>
+    </div>
+
+    <div style="color: red;">
+        {% for error in errors %}
+            {{ errors|get_value_from_dict:error }}
+        {% endfor %}
+    </div>
+
+    <div style="align: center; margin-left: 20%; ">
+        <form method="post">
+            {% csrf_token %}
+            {{form}}
+            <input type="submit" value="Register">
+        </form>
+        <div style="margin-bottom: 5px">
+            <a href="{% url 'users:login' %}">Back to login</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "investimentos/base_site.html" %}
+
+{% block branding %}
+
+<script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css"/>
+
+
+<div>
+    <form action="{% url 'investimentos:adicionar_acao' %}" method="post">
+        {% csrf_token %}
+        <div id="autocomplete" class="autocomplete" style="margin-left:2%; width: 300px; float: left">
+            <input class="autocomplete-input" id="sigla-acao" name="sigla-acao" type="text" />
+            <ul class="autocomplete-result-list"></ul>
+        </div>
+        <input type="Submit" value="Adicionar" style="height:50px; margin-left: 2%; font-size: 24px; border-color:rgba(0,0,0,.12);  border-radius: 8px 8px 8px 8px;">
+    </form>
+</div>
+
+<script>
+    new Autocomplete('#autocomplete', {
+        search: input =>{
+            const url = `/buscar_acao/?sigla=${input}`
+            return new Promise(resolve =>{
+                fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    resolve(data.data)
+                })
+            })
+        }
+    })
+</script>
+
+
+{% endblock %}
